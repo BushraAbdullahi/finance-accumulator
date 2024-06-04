@@ -1,6 +1,6 @@
 # Finance Accumulator
 
-Finance Accumulator is a Node.js app, which allows users to connect to their Revolut and Stripe accounts, and automatically import statistics of income (expenses/income) from:
+Finance Accumulator is a Node.js app, which allows users to connect to their business accounts, and automatically import statistics of income (expenses/income) from:
 
 - **Stripe** (for business income), being able to retrieve:
   - Income associated with the business
@@ -19,7 +19,7 @@ Finance Accumulator is a Node.js app, which allows users to connect to their Rev
   - Paid invoice details
   - Refunded invoices
 
-![Diagram](https://www.plantuml.com/plantuml/svg/ZLDDRzim3BtpLn2z1xtxCDHmzf4XBT9vHG-13wpCEK9ioP2fOi6G_px8ZlDXgq0FFfZlyP4K7nyw8IU-gK6qr8pVj26Z65EbVEDh4kimTMgdXPLunm0jgJrLZ7VfQtw7_m3n75bQjMU7cJL2sh0Ru2l2aotvPuvfsuuGudPDfjIcmWrLN8p1N9nk6LT6k78asfepjA73XkeebEzig_ySejYIXDweYsk-TEmmzR9Z8rhTOgaNsv1mYR-vasw87o5yDyEVzCV9je-7_7bTp7ZPwZvRuaQtN6jpON_NyiE_OQf2xLEHRMPBLlPzBl9eZHRhjAdE0dbDQZyTxWX7059XYs54W7xGnUBBzDalySZBOtBzDdn5ZkpYOt9iErDsj7oV7TqV9hXgMki40mpHVZwV7Mtmq-dm0QiN6Co02UPY7Oy9btiOwqmkg81vQ62chtaHKvYvTHOPUBSs39tzycPWm0piCoOEnGI__cNbmzAY_D6ycFIocDbtTbHnhElO_ON7qfLPlBJtQrjf4ykxt441rpydmyrE8jYjPYSTm0ERqZVrVm00)
+![Diagram](https://www.plantuml.com/plantuml/svg/ZLDDRzim3BthLn2z1xtxCDHmzf4XwTnwNGz13wpCE4HioP2fOi6G_pxOZXF7KO0UTE5xZzJZnqCZwCHNfHAMak0R6pIQ8DRQLxv4iGvYfxSifCKxKgf6lSE2u2v-pUxWdm8uHUPMxyX1OeqW6t8zF28ysfn-PX3NzG01h9TeSZO5f5ZGsn3Cn75Di312XKDXQqvGYliKoo2KRMtDctqGcwFWEpRXd2yDEOYzRCa8wqiizc8h5ChXDpNIzF63Qj-5-MF-mTbwjS-UbczNl6HndymXvPfADcVsTvOV_XrYtTO-5badDYTjFwwJhAnXiOvDSKgGbQXtKtC7TL0ATJl5rg9IdT7PxCkaxH317svOHdXW0X2DUqGZSc0cjycXAKtPAbY_amS72H4igjewWHPMmGzzNXtyuQVbwWQhIz1l1KIGYNKq2Cw7CTIPd5AhUFO65gRXd5G0xsJnQzOovrINTayv_3AXvDEDXWXISXlhgZwWhXcTxd9rXoyT9LEmKqos6YBu-fUq5peHRmY7pOS8LeIDTmI9_I271OKSXUwtxJ4NPlPItozjmS5EdE-eevF98Ix9jNx6KB-sLmS64JnQuSrUgGSokQ_A_m00)
 
 ## Table of Contents
 

@@ -30,27 +30,29 @@ package "AWS" {
 
 actor User
 
-User --> [Landing Page]
+User --> [Landing Page] : Visit
 User --> [Stripe Integration] : Authenticate
 User --> [PayPal Integration] : Authenticate
 User --> [Shopify Integration] : Authenticate
+
 [Stripe Integration] --> [Database Integration] : Import Data
 [PayPal Integration] --> [Database Integration] : Import Data
 [Shopify Integration] --> [Database Integration] : Import Data
 
 [Database Integration] --> [MySQL] : Store Data
 
-[NodeJS App] --> [Docker Container]
-[Docker Container] --> [AWS]
+[NodeJS App] --> [Docker Container] : Run Inside
+[Docker Container] --> [AWS] : Deployed On
 
-[NodeJS App] --> [Automated Tests]
+[NodeJS App] --> [Automated Tests] : Perform Tests
 [Automated Tests] --> [CI/CD Pipeline] : Run Tests
-[CI/CD Pipeline] --> [GitHub Actions] : Execute
-[CI/CD Pipeline] --> [Codecov] : Test Coverage
+[CI/CD Pipeline] --> [GitHub Actions] : Execute Pipeline
+[CI/CD Pipeline] --> [Codecov] : Measure Coverage
 
 [NodeJS App] --> [User Authentication] : Sign-Up/Login
 
-[NodeJS App] --> [Monitoring]
-[Monitoring] --> [Slack Integration] : Alerts
+[NodeJS App] --> [Monitoring] : Send Alerts
+[Monitoring] --> [Slack Integration] : Notify
 
 @enduml
+
