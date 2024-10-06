@@ -1,7 +1,7 @@
 // src/app/layout.js (Server Component)
 import localFont from "next/font/local";
 import "./globals.css";
-import SessionLayout from "./session-layout"; // Import the client-side session layout
+import SessionLayout from "./session-layout"; 
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
