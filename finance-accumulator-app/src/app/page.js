@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { data: session } = useSession(); // Get session data (e.g., user's name and email)
@@ -35,13 +35,41 @@ export default function Home() {
     }
   };
 
-  // Function to navigate to link-bank.js when the user is ready to link their bank
-  const handleSubmitBank = () => {
+  // Function to handle bank linking and store the requisitionId in local storage
+  const handleSubmitBank = async () => {
     if (selectedBank) {
-      // Save the selected bank in sessionStorage or pass it via URL params if needed
-      sessionStorage.setItem("selectedBank", selectedBank);
-      // Navigate the user to /auth/link-bank to complete the bank linking
-      router.push("/link-bank");
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Call the API route to initiate the Nordigen session and get the link
+        const response = await fetch("/api/nordigen-session", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            institutionId: selectedBank, // Use the bank selected by the user
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          // Store the requisition ID in local storage
+          localStorage.setItem("requisitionId", data.requisitionId);
+
+          // Redirect the user to the bank's authorization link
+          window.location.href = data.link;
+        } else {
+          setError("Failed to initiate bank session");
+        }
+      } catch (err) {
+        console.error("Error initiating bank session:", err);
+        setError("Something went wrong");
+      } finally {
+        setLoading(false);
+      }
     } else {
       setError("Please select a bank");
     }
