@@ -1,4 +1,3 @@
-// pages/api/nordigen-account-data.js
 import NordigenClient from "nordigen-node";
 
 export default async function handler(req, res) {
@@ -8,7 +7,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log("Initializing Nordigen client..."); // Log initial step
+    console.log("Initializing Nordigen client...");
     const client = new NordigenClient({
       secretId: process.env.GO_CARDLESS_SECRET_ID,
       secretKey: process.env.GO_CARDLESS_SECRET_KEY,
@@ -16,7 +15,7 @@ export default async function handler(req, res) {
 
     const tokenData = await client.generateToken();
     client.token = tokenData.access;
-    console.log("Nordigen token generated:", tokenData.access); // Log the token
+    console.log("Nordigen token generated:", tokenData.access); 
 
     console.log("nordigen-account-data.js requisition id:", requisitionId);
     const requisitionData = await client.requisition.getRequisitionById(
@@ -31,14 +30,14 @@ export default async function handler(req, res) {
         .json({ error: "No accounts found for this requisition ID" });
     }
 
-    console.log("Fetching account details for accountId:", accountId); // Log account ID
+    console.log("Fetching account details for accountId:", accountId); 
     const account = client.account(accountId);
     const metadata = await account.getMetadata();
     const balances = await account.getBalances();
     const details = await account.getDetails();
     const transactions = await account.getTransactions();
 
-    console.log("Fetched account data successfully"); // Log success
+    console.log("Fetched account data successfully"); 
     res.status(200).json({
       metadata,
       balances,
@@ -46,7 +45,7 @@ export default async function handler(req, res) {
       transactions,
     });
   } catch (error) {
-    console.error("Error fetching account data:", error); // Log detailed error
+    console.error("Error fetching account data:", error); 
     res
       .status(500)
       .json({ error: `Error fetching account data: ${error.message}` });
