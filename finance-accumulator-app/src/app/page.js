@@ -1,29 +1,27 @@
-"use client"; // Mark this as a client component
-
+"use client";
+import { signIn } from "next-auth/react";
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const { data: session } = useSession(); // Get session data (e.g., user's name and email)
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [institutions, setInstitutions] = useState([]); // State to store fetched institutions
-  const [selectedBank, setSelectedBank] = useState(""); // State to store the selected bank
-  const router = useRouter(); // Initialize the router
+  const [institutions, setInstitutions] = useState([]);
+  const [selectedBank, setSelectedBank] = useState("");
+  const router = useRouter();
 
-  // Renamed function: Fetch available institutions
   const fetchInstitutions = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      // Fetch available institutions for a specific country code (e.g., "LV" for Latvia)
       const response = await fetch("/api/nordigen-institutions");
       const data = await response.json();
 
       if (response.ok) {
-        setInstitutions(data.institutions); // Store the list of institutions in state
+        setInstitutions(data.institutions);
       } else {
         setError("Failed to fetch institutions");
       }
@@ -35,31 +33,27 @@ export default function Home() {
     }
   };
 
-  // Function to handle bank linking and store the requisitionId in local storage
   const handleSubmitBank = async () => {
     if (selectedBank) {
       try {
         setLoading(true);
         setError(null);
 
-        // Call the API route to initiate the Nordigen session and get the link
         const response = await fetch("/api/nordigen-session", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            institutionId: selectedBank, // Use the bank selected by the user
+            institutionId: selectedBank,
           }),
         });
 
         const data = await response.json();
 
         if (response.ok) {
-          // Store the requisition ID in local storage
           localStorage.setItem("requisitionId", data.requisitionId);
 
-          // Redirect the user to the bank's authorization link
           window.location.href = data.link;
         } else {
           setError("Failed to initiate bank session");
@@ -79,9 +73,9 @@ export default function Home() {
     return (
       <div>
         <h1>You are not signed in</h1>
-        <a href="/auth/signin">Sign in</a>
+        <a onClick={() => signIn({ callbackUrl: "/" })}>Sign in</a>
       </div>
-    );
+    );  
   }
 
   return (

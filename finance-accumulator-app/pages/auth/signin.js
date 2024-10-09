@@ -21,7 +21,7 @@ export default function SignIn() {
           borderRadius: "4px",
           cursor: "pointer",
         }}
-        onClick={() => signIn("google", { callbackUrl: "/" })}
+        onClick={() => signIn({ callbackUrl: "/" })}
       >
         Sign in with Google
       </button>
