@@ -1,8 +1,9 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { fetchInstitutions } from "src/app/utils/fetchInstitutions"; 
+import { handleSubmitBank as submitBank } from "src/app/utils/handleSubmitBank"; 
 
 export default function Home() {
   const { data: session } = useSession();
@@ -10,23 +11,15 @@ export default function Home() {
   const [error, setError] = useState(null);
   const [institutions, setInstitutions] = useState([]);
   const [selectedBank, setSelectedBank] = useState("");
-  const router = useRouter();
 
-  const fetchInstitutions = async () => {
+  const handleFetchInstitutions = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/nordigen-institutions");
-      const data = await response.json();
-
-      if (response.ok) {
-        setInstitutions(data.institutions);
-      } else {
-        setError("Failed to fetch institutions");
-      }
-    } catch (err) {
-      console.error(err);
+      const data = await fetchInstitutions();
+      setInstitutions(data);
+    } catch (error) {
       setError("Something went wrong while fetching institutions");
     } finally {
       setLoading(false);
@@ -34,38 +27,17 @@ export default function Home() {
   };
 
   const handleSubmitBank = async () => {
-    if (selectedBank) {
-      try {
-        setLoading(true);
-        setError(null);
+    setLoading(true);
+    setError(null);
 
-        const response = await fetch("/api/nordigen-session", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            institutionId: selectedBank,
-          }),
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          localStorage.setItem("requisitionId", data.requisitionId);
-
-          window.location.href = data.link;
-        } else {
-          setError("Failed to initiate bank session");
-        }
-      } catch (err) {
-        console.error("Error initiating bank session:", err);
-        setError("Something went wrong");
-      } finally {
-        setLoading(false);
-      }
-    } else {
-      setError("Please select a bank");
+    try {
+      const data = await submitBank(selectedBank); 
+      localStorage.setItem("requisitionId", data.requisitionId);
+      window.location.href = data.link; 
+    } catch (error) {
+      setError(error.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -75,7 +47,7 @@ export default function Home() {
         <h1>You are not signed in</h1>
         <a onClick={() => signIn({ callbackUrl: "/" })}>Sign in</a>
       </div>
-    );  
+    );
   }
 
   return (
@@ -88,7 +60,7 @@ export default function Home() {
       <div>
         <h2>Link Your Bank Account</h2>
         {!institutions.length ? (
-          <button onClick={fetchInstitutions} disabled={loading}>
+          <button onClick={handleFetchInstitutions} disabled={loading}>
             {loading ? "Loading..." : "Link Bank Account"}
           </button>
         ) : (
