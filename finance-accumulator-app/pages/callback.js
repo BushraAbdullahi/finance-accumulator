@@ -6,21 +6,20 @@ export default function Callback() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const requisitionId = localStorage.getItem("requisitionId"); // Retrieve requisitionId from local storage
+    const requisitionId = localStorage.getItem("requisitionId"); 
 
     if (requisitionId) {
       console.log("Requisition ID from local storage:", requisitionId);
 
       const fetchAccountData = async () => {
         try {
-          // Fetch account data using the requisitionId
           const response = await fetch(
             `/api/auth/nordigen-account-data?requisitionId=${requisitionId}`
           );
           const data = await response.json();
 
           if (response.ok) {
-            setAccountData(data); // Store the fetched account data
+            setAccountData(data); 
           } else {
             setError(data.error || "Failed to fetch account data");
           }

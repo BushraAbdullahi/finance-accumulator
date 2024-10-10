@@ -1,4 +1,3 @@
-// pages/api/nordigen-institutions.js
 import NordigenClient from "nordigen-node";
 
 export default async function handler(req, res) {
@@ -8,11 +7,9 @@ export default async function handler(req, res) {
       secretKey: process.env.GO_CARDLESS_SECRET_KEY,
     });
 
-    // Generate a new access token (valid for 24 hours)
     const tokenData = await client.generateToken();
-    client.token = tokenData.access; // Set the token
+    client.token = tokenData.access; 
 
-    // Fetch available institutions for a specific country (e.g., Latvia, country code "LV")
     const institutions = await client.institution.getInstitutions({
       country: "GB",
     });

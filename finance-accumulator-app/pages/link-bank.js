@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 export default function LinkBank() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [selectedBank, setSelectedBank] = useState(""); // State to store the selected bank
+  const [selectedBank, setSelectedBank] = useState(""); 
 
   useEffect(() => {
     const bank = sessionStorage.getItem("selectedBank");
@@ -19,21 +19,19 @@ export default function LinkBank() {
     setError(null);
 
     try {
-      // Call the API route to initiate the session and get the link
       const response = await fetch("/api/nordigen-session", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          institutionId: selectedBank, // Use the bank selected in page.js
+          institutionId: selectedBank, 
         }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        // Redirect the user to the bank authorization link
         window.location.href = data.link;
       } else {
         setError("Failed to initiate bank session");
